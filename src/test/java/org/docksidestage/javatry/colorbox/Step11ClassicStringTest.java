@@ -15,10 +15,14 @@
  */
 package org.docksidestage.javatry.colorbox;
 
+import java.awt.*;
 import java.util.List;
+
+import javax.swing.*;
 
 import org.docksidestage.bizfw.colorbox.ColorBox;
 import org.docksidestage.bizfw.colorbox.color.BoxColor;
+import org.docksidestage.bizfw.colorbox.space.BoxSpace;
 import org.docksidestage.javatry.colorbox.base.YourPrivateRoom;
 import org.docksidestage.unit.PlainTestCase;
 
@@ -51,6 +55,22 @@ public class Step11ClassicStringTest extends PlainTestCase {
      * (カラーボックスに入ってる文字列の中で、一番長い文字列は？)
      */
     public void test_length_findMax() {
+        List<ColorBox> colorBoxList = new YourPrivateRoom().getColorBoxList();
+        String maxStr = null;
+        for (ColorBox colorBox : colorBoxList) {
+            List<BoxSpace> spaceList = colorBox.getSpaceList();
+            for (BoxSpace space : spaceList) {
+                Object content = space.getContent();
+                if (content instanceof String) {
+                    String strContent = (String) content;
+                    int currentLength = strContent.length();
+                    if (maxStr == null || maxStr.length() < currentLength) {
+                        maxStr = strContent;
+                    }
+                }
+            }
+        }
+        log(maxStr != null ? maxStr : "Not found string content");
     }
 
     /**
@@ -58,6 +78,28 @@ public class Step11ClassicStringTest extends PlainTestCase {
      * (カラーボックスに入ってる文字列の中で、一番長いものと短いものの差は何文字？)
      */
     public void test_length_findMaxMinDiff() {
+        List<ColorBox> colorBoxList = new YourPrivateRoom().getColorBoxList();
+        int maxLength = 0;
+        int minLength = 1000000000;
+        int diffLength;
+        for (ColorBox colorBox : colorBoxList) {
+            List<BoxSpace> spaceList = colorBox.getSpaceList();
+            for (BoxSpace space : spaceList) {
+                Object content = space.getContent();
+                if (content instanceof String) {
+                    String strContent = (String) content;
+                    int currentLength = strContent.length();
+                    if (maxLength == 0 || maxLength < currentLength) {
+                        maxLength = currentLength;
+                    }
+                    if (minLength == 1000000 || minLength > currentLength) {
+                        minLength = currentLength;
+                    }
+                }
+            }
+        }
+        diffLength = maxLength - minLength;
+        log(maxLength >= minLength ? diffLength : "Not found string content");
     }
 
     /**
@@ -65,6 +107,26 @@ public class Step11ClassicStringTest extends PlainTestCase {
      * (カラーボックスに入ってる値 (文字列以外はtoString()) の中で、二番目に長い文字列は？ (ソートなしで))
      */
     public void test_length_findSecondMax() {
+        List<ColorBox> colorBoxList = new YourPrivateRoom().getColorBoxList();
+        int maxLength = 0;
+        int secondMaxLength = 0;
+        for (ColorBox colorBox : colorBoxList) {
+            List<BoxSpace> spaceList = colorBox.getSpaceList();
+            for (BoxSpace space : spaceList) {
+                Object content = space.getContent();
+                if (content instanceof String) {
+                    String strContent = (String) content;
+                    int currentLength = strContent.length();
+                    if (maxLength == 0) {
+                        maxLength = currentLength;
+                    } else if (maxLength < currentLength) {
+                        maxLength = currentLength;
+                        secondMaxLength = maxLength;
+                    }
+                }
+            }
+        }
+        log(secondMaxLength != 0 ? secondMaxLength : "Not found string content");
     }
 
     /**
