@@ -54,7 +54,7 @@ public class Step11ClassicStringTest extends PlainTestCase {
         BoxColor boxColor = colorBox.getColor();
         String colorName = boxColor.getColorName();
         int answer = colorName.length();
-        log(answer, colorName); // also show name for visual check
+        log("First color-box is {}. So the length is {}.", colorName, answer); // also show name for visual check
     }
 
     /**
@@ -77,7 +77,11 @@ public class Step11ClassicStringTest extends PlainTestCase {
                 }
             }
         }
-        log(maxStr != null ? maxStr : "Not found string content");
+        if (maxStr != null) {
+            log("{} has max length", maxStr);
+        } else {
+            log("Not found string content");
+        }
     }
 
     /**
@@ -86,9 +90,8 @@ public class Step11ClassicStringTest extends PlainTestCase {
      */
     public void test_length_findMaxMinDiff() {
         List<ColorBox> colorBoxList = new YourPrivateRoom().getColorBoxList();
-        int maxLength = 0;
-        int minLength = 1000000000;
-        int diffLength;
+        int maxLength = -1;
+        int minLength = -1;
         for (ColorBox colorBox : colorBoxList) {
             List<BoxSpace> spaceList = colorBox.getSpaceList();
             for (BoxSpace space : spaceList) {
@@ -96,17 +99,23 @@ public class Step11ClassicStringTest extends PlainTestCase {
                 if (content instanceof String) {
                     String strContent = (String) content;
                     int currentLength = strContent.length();
-                    if (maxLength == 0 || maxLength < currentLength) {
+                    if (maxLength == -1 || maxLength < currentLength) {
                         maxLength = currentLength;
                     }
-                    if (minLength == 1000000 || minLength > currentLength) {
+                    if (minLength == -1 || minLength > currentLength) {
                         minLength = currentLength;
                     }
                 }
             }
         }
-        diffLength = maxLength - minLength;
-        log(maxLength >= minLength ? diffLength : "Not found string content");
+
+        int diffLength = maxLength - minLength;
+
+        if (maxLength >= minLength) {
+            log("Difference between max and min are {} characters", diffLength);
+        } else {
+            log("Not found string content");
+        }
     }
 
     /**
@@ -134,7 +143,11 @@ public class Step11ClassicStringTest extends PlainTestCase {
 
             }
         }
-        log(secondMaxStr != null ? secondMaxStr : "Not found string content");
+        if (secondMaxStr != null) {
+            log("{} has second-max lengths", secondMaxStr);
+        } else {
+          log("Not found string content");
+        }
     }
 
     /**
@@ -143,7 +156,7 @@ public class Step11ClassicStringTest extends PlainTestCase {
      */
     public void test_length_calculateLengthSum() {
         List<ColorBox> colorBoxList = new YourPrivateRoom().getColorBoxList();
-        int SumLength = 0; // 何もなかったらnullではなく0
+        int sumLength = 0; // 何もなかったらnullではなく0
         for (ColorBox colorBox : colorBoxList) {
             List<BoxSpace> spaceList = colorBox.getSpaceList();
             for (BoxSpace space : spaceList) {
@@ -151,11 +164,15 @@ public class Step11ClassicStringTest extends PlainTestCase {
                 if (content instanceof String) {
                     String strContent = (String) content;
                     int currentLength = strContent.length();
-                    SumLength += currentLength;
+                    sumLength += currentLength;
                 }
             }
         }
-        log(SumLength != 0 ? SumLength : "There is no string contents");
+        if (sumLength != 0) {
+            log("Total lengths are {} characters", sumLength);
+        } else {
+          log("There is no string contents");
+        }
     }
 
     /**
@@ -172,7 +189,11 @@ public class Step11ClassicStringTest extends PlainTestCase {
                 maxStrColor = colorName;
             }
         }
-        log(maxStrColor != null ? maxStrColor : "Not found string content");
+        if (maxStrColor != null) {
+            log("{} has max length in color-boxes", maxStrColor);
+        } else {
+            log("Not found name color");
+        }
     }
 
     // ===================================================================================
@@ -200,7 +221,7 @@ public class Step11ClassicStringTest extends PlainTestCase {
         }
         if (!startingWordList.isEmpty()){
             for (String startingWord : startingWordList) {
-                log(startingWord);
+                log("{} is color in the color-box that has string starting with \"Water\"", startingWord);
             }
         } else {
             log("There is no color in the color-box that has string starting with {}", searchWord);
@@ -227,7 +248,11 @@ public class Step11ClassicStringTest extends PlainTestCase {
                 }
             }
         }
-        log(colorName != null ? colorName : "There is no color in the color-box that has string ending with \"front\"");
+        if (colorName != null) {
+            log("{} is color in the color-box that has string ending with \"front\"", colorName);
+        } else {
+            log( "There is no color in the color-box that has string ending with \"front\"");
+        }
     }
 
     // ===================================================================================
@@ -253,7 +278,11 @@ public class Step11ClassicStringTest extends PlainTestCase {
                 }
             }
         }
-        log(startingChar != 0 ? startingChar : "There is no color in the color-box that has string ending with {}", searchWord);
+        if (startingChar != 0) {
+            log("From {} characters", startingChar);
+        } else {
+            log("There is no color in the color-box that has string ending with {}", searchWord);
+        }
     }
 
     /**
@@ -276,9 +305,9 @@ public class Step11ClassicStringTest extends PlainTestCase {
                         if (strArray[i].equals(targetChar)) {
                             count++;
                             if (count >= 2) {
-//                                System.out.println(strArray[i -1]);
-//                                System.out.println(i);
-//                                System.out.println(strContent);
+                                //                                System.out.println(strArray[i -1]);
+                                //                                System.out.println(i);
+                                //                                System.out.println(strContent);
                                 log(strContent  + ':' + (i + 1));
                             }
                         }
@@ -306,8 +335,8 @@ public class Step11ClassicStringTest extends PlainTestCase {
                 if (content instanceof String) {
                     String strContent = (String) content;
                     if (strContent.endsWith(searchWord)) {
-                        log(strContent.substring(0,1));
                         log(strContent);
+                        log("'{}' is first of string", strContent.substring(0,1));
                     }
                 }
             }
@@ -328,8 +357,8 @@ public class Step11ClassicStringTest extends PlainTestCase {
                 if (content instanceof String) {
                     String strContent = (String) content;
                     if (strContent.startsWith(searchWord)) {
-                        log(strContent.substring(strContent.length() - 1));
                         log(strContent);
+                        log("'{}' is last of string", strContent.substring(strContent.length() - 1));
                     }
                 }
             }
@@ -354,8 +383,8 @@ public class Step11ClassicStringTest extends PlainTestCase {
                     String strContent = (String) content;
                     if (strContent.contains(searchWord)) {
                         String replacedContent =  strContent.replace(searchWord, "");
-                        log(replacedContent.length());
                         log("{}->{}",strContent,replacedContent);
+                        log("{} characters", replacedContent.length());
                     }
                 }
             }
@@ -399,13 +428,13 @@ public class Step11ClassicStringTest extends PlainTestCase {
                 }
             }
         }
-//        log(colorBoxList);
+        //        log(colorBoxList);
 
-//        YourPrivateRoom.DevilBox devilBox = new YourPrivateRoom.DevilBox("");
-//        devilBox.wakeUp();
-//        devilBox.allowMe();
-//        devilBox.open();
-//        log(devilBox.getText());
+        //        YourPrivateRoom.DevilBox devilBox = new YourPrivateRoom.DevilBox("");
+        //        devilBox.wakeUp();
+        //        devilBox.allowMe();
+        //        devilBox.open();
+        //        log(devilBox.getText());
 
     }
 
