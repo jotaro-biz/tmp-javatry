@@ -16,10 +16,7 @@
 package org.docksidestage.javatry.colorbox;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.function.ObjDoubleConsumer;
 
 import org.docksidestage.bizfw.colorbox.ColorBox;
@@ -369,6 +366,24 @@ public class Step11ClassicStringTest extends PlainTestCase {
     //                                                                           replace()
     //                                                                           =========
     /**
+     * What string is path string of java.io.File in color-boxes, which is replaced with "/" to Windows file separator? <br>
+     * カラーボックスに入ってる java.io.File のパス文字列のファイルセパレーターの "/" を、Windowsのファイルセパレーターに置き換えた文字列は？
+     */
+    public void test_replace_file_separator() { // TODO jojo もう一度解く (2019/04/25)
+        List<ColorBox> colorBoxList = new YourPrivateRoom().getColorBoxList();
+        for (ColorBox colorBox : colorBoxList) {
+            List<BoxSpace> spaceList = colorBox.getSpaceList();
+            for (BoxSpace space : spaceList) {
+                Object content = space.getContent();
+                if(content instanceof File) {
+                    String filePath = ((File) content).getPath();
+                    log(filePath);
+                    log(filePath.replace("/", "\\"));
+                }
+            }
+        }
+    }
+    /**
      * How many characters does string that contains "o" in color-boxes and removing "o" have? <br>
      * (カラーボックスに入ってる "o" (おー) を含んだ文字列から "o" を全て除去したら何文字？)
      */
@@ -391,24 +406,6 @@ public class Step11ClassicStringTest extends PlainTestCase {
         }
     }
 
-    /**
-     * What string is path string of java.io.File in color-boxes, which is replaced with "/" to Windows file separator? <br>
-     * カラーボックスに入ってる java.io.File のパス文字列のファイルセパレーターの "/" を、Windowsのファイルセパレーターに置き換えた文字列は？
-     */
-    public void test_replace_file_separator() { // TODO jojo もう一度解く (2019/04/25)
-        List<ColorBox> colorBoxList = new YourPrivateRoom().getColorBoxList();
-        for (ColorBox colorBox : colorBoxList) {
-            List<BoxSpace> spaceList = colorBox.getSpaceList();
-            for (BoxSpace space : spaceList) {
-                Object content = space.getContent();
-                if(content instanceof File) {
-                    String filePath = ((File) content).getPath();
-                    log(filePath);
-                    log(filePath.replace("/", "\\"));
-                }
-            }
-        }
-    }
 
     // ===================================================================================
     //                                                                    Welcome to Devil
@@ -424,17 +421,19 @@ public class Step11ClassicStringTest extends PlainTestCase {
             for (BoxSpace space : spaceList) {
                 Object content = space.getContent();
                 if(content instanceof YourPrivateRoom.DevilBox) {
-                    log(((String)content).length());
+                    YourPrivateRoom.DevilBox devilContent = (YourPrivateRoom.DevilBox) content;
+                    devilContent.wakeUp();
+                    devilContent.allowMe();
+                    devilContent.open();
+                    try {
+                        String devilText = devilContent.getText();
+                        log("text: {} - length: {}",devilText,devilText.length());
+                    } catch (Exception e){
+                        log("No text in devil box.");
+                    }
                 }
             }
         }
-        //        log(colorBoxList);
-
-        //        YourPrivateRoom.DevilBox devilBox = new YourPrivateRoom.DevilBox("");
-        //        devilBox.wakeUp();
-        //        devilBox.allowMe();
-        //        devilBox.open();
-        //        log(devilBox.getText());
 
     }
 
@@ -445,7 +444,19 @@ public class Step11ClassicStringTest extends PlainTestCase {
      * What string is converted to style "map:{ key = value ; key = value ; ... }" from java.util.Map in color-boxes? <br>
      * (カラーボックスの中に入っている java.util.Map を "map:{ key = value ; key = value ; ... }" という形式で表示すると？)
      */
-    public void test_showMap_flat() {
+    public void test_showMap_flat() { //TODO jojo 回答途中 (2019/05/14)
+        List<ColorBox> colorBoxList = new YourPrivateRoom().getColorBoxList();
+        for (ColorBox colorBox : colorBoxList) {
+            List<BoxSpace> spaceList = colorBox.getSpaceList();
+            for (BoxSpace space : spaceList) {
+                Object content = space.getContent();
+                if (content instanceof Map) {
+//                    ((Map) content).forEach((key, value) -> function(){
+//                        System.out.println(key + value);
+//                    });
+                }
+            }
+        }
     }
 
     /**
@@ -453,6 +464,20 @@ public class Step11ClassicStringTest extends PlainTestCase {
      * (カラーボックスの中に入っている java.util.Map を "map:{ key = value ; key = map:{ key = value ; ... } ; ... }" という形式で表示すると？)
      */
     public void test_showMap_nested() {
+        List<ColorBox> colorBoxList = new YourPrivateRoom().getColorBoxList();
+        for (ColorBox colorBox : colorBoxList) {
+            List<BoxSpace> spaceList = colorBox.getSpaceList();
+            for (BoxSpace space : spaceList) {
+                Object content = space.getContent();
+                if (content instanceof Map) {
+                    // ((Map)content).forEach((key, value) -> { System.out.println(key); });
+                    log((content.toString())
+                            .replace(",", ";")
+                            .replace("{", "map:{")
+                    );
+                }
+            }
+        }
     }
 
     // ===================================================================================
